@@ -1,5 +1,4 @@
 const express = require("express");
-
 const app = express();
 const bodyParser = require("body-parser");
 const path = require("path");
@@ -7,7 +6,6 @@ const path = require("path");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-// Get all users
 const initialLocations = [
   {
     id: "id1",
@@ -38,22 +36,26 @@ app.get("/locations", (request, response) =>
 
 app.use(express.static(path.resolve(__dirname, "..", "build")));
 
-// Always return the main index.html, so react-router render the route in the client
 app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
 });
 
 app.post("/locations", (req, res) => {
   const { body } = req;
+  let { locations } = app.locals;
 
   for (let requiredParam of ["name", "lat", "lng"]) {
-    if (!body[requiredParam]) return res.status(422).json({error: `Missing ${requiredParam}.`});
+    if (!body[requiredParam]) return res.status(422).json({ error: `Missing ${requiredParam}.` });
   }
+
+  const postedLocation = { id: `id${locations.length + 1}`, ...body };
+  app.locals.locations = locations.concat(postedLocation);
+  res.send(postedLocation);
 });
 
 const portNumber = process.env.PORT || 3001;
 
 /* eslint-disable no-console */
 app.listen(portNumber, () =>
-  console.log("RrrarrrrRrrrr server alive on port 3001")
+  console.log("It's ultra chill at port 3001")
 );
