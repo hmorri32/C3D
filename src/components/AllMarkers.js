@@ -6,7 +6,7 @@ import { Polygon } from "react-leaflet";
 import { createPolyLine } from "../actions/polygonActions";
 
 class AllMarkers extends Component {
-  polygonCity(e) {
+  polygonHandler(e) {
     const { lat, lng } = e.latlng;
     const { polyCoordinates, createPolyLine, destroyPolyLine } = this.props;
     const [poly, latlng] = [JSON.stringify({ polyCoordinates }), JSON.stringify([lat, lng])];
@@ -14,26 +14,24 @@ class AllMarkers extends Component {
     poly.includes(latlng) ? destroyPolyLine([lat, lng]) : createPolyLine([lat, lng]);
   }
 
-  filtered(polyLines, latlng) {
-    return polyLines.filter(coord => JSON.stringify(coord) !== latlng);
-  }
-
-  render() {
-    const { polyCoordinates } = this.props;
-    const markerArray = this.props.locations.map((marker, i) => {
+  renderMarkers() {
+    return this.props.locations.map((marker, i) => {
       return (
         <MapMarker
           key={i}
           location={[+marker.lat, +marker.lng]}
           name={marker.name}
-          clickHandler={e => this.polygonCity(e)}
+          clickHandler={e => this.polygonHandler(e)}
         />
       );
     });
+  }
 
+  render() {
+    const { polyCoordinates } = this.props;
     return (
       <div className="paths-container">
-        {markerArray}
+        {this.renderMarkers()}
         <Polygon color="mediumseagreen" positions={polyCoordinates} />
       </div>
     );
