@@ -36,7 +36,7 @@ const postLocation = location => {
     });
     const json = await fetcher.json();
     dispatch(storeNewLocation(json));
-    fetchAllLocations();
+    dispatch(fetchAllLocations());
   };
 };
 
