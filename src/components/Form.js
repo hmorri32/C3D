@@ -1,32 +1,42 @@
-import React, { Component } from 'react';
-
+import React, { Component } from "react";
 
 class Form extends Component {
-  submitForm(e, data) {
-    e.preventDefault();
-    this.props.saveLocation(data);
+  constructor() {
+    super();
+    this.state = {
+      formErrors: ""
+    };
   }
+
+  submitForm(e, data) {
+    const { lat, lng, name } = data;
+    const { postLocation } = this.props;
+    e.preventDefault();
+
+    postLocation(data);
+  }
+
   render() {
     return (
       <form className="form">
         <label>
           Name
           <input
-            ref={(input) => { this.name = input }}
+            ref={(input) => { this.name = input; }}
             type="text"
           />
         </label>
         <label>
           Lat
           <input
-            ref={(input) => { this.lat = input }}
+            ref={(input) => { this.lat = input; }}
             type="text"
           />
         </label>
         <label>
           Lon
           <input
-            ref={(input) => { this.lng = input }}
+            ref={(input) => { this.lng = input; }}
             type="text"/>
         </label>
         <button
