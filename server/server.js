@@ -43,7 +43,17 @@ app.get("/", (req, res) => {
   res.sendFile(path.resolve(__dirname, "..", "build", "index.html"));
 });
 
+app.post("/locations", (req, res) => {
+  const { body } = req;
+
+  for (let requiredParam of ["name", "lat", "lng"]) {
+    if (!body[requiredParam]) return res.status(422).json({error: `Missing ${requiredParam}.`});
+  }
+});
+
 const portNumber = process.env.PORT || 3001;
 
 /* eslint-disable no-console */
-app.listen(portNumber, () => console.log("RrrarrrrRrrrr server alive on port 3001"));
+app.listen(portNumber, () =>
+  console.log("RrrarrrrRrrrr server alive on port 3001")
+);
