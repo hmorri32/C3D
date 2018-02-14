@@ -6,29 +6,12 @@ import { Polygon } from "react-leaflet";
 import { createPolyLine } from "../actions/polygonActions";
 
 class AllMarkers extends Component {
-  constructor() {
-    super();
-    this.state = {
-      polyLines: []
-    };
-  }
-
   polygonCity(e) {
     const { lat, lng } = e.latlng;
-    const {polyCoordinates} = this.props;
-    // const { polyLines } = this.state;
-    const [poly, latlng] = [
-      JSON.stringify({polyCoordinates}),
-      JSON.stringify([lat, lng])
-    ];
+    const { polyCoordinates, createPolyLine, destroyPolyLine } = this.props;
+    const [poly, latlng] = [JSON.stringify({ polyCoordinates }), JSON.stringify([lat, lng])];
 
-    this.props.createPolyLine([lat,lng]);
-
-
-
-    // poly.includes(latlng)
-    //   ? this.setState({ polyLines: this.filtered(polyLines, latlng) })
-    //   : this.setState({ polyLines: this.state.polyLines.concat([[lat, lng]]) });
+    poly.includes(latlng) ? destroyPolyLine([lat, lng]) : createPolyLine([lat, lng]);
   }
 
   filtered(polyLines, latlng) {
@@ -36,7 +19,7 @@ class AllMarkers extends Component {
   }
 
   render() {
-    const { polyLines } = this.state;
+    const { polyCoordinates } = this.props;
     const markerArray = this.props.locations.map((marker, i) => {
       return (
         <MapMarker
@@ -51,7 +34,7 @@ class AllMarkers extends Component {
     return (
       <div className="paths-container">
         {markerArray}
-        <Polygon color="mediumseagreen" positions={this.props.polyCoordinates} />
+        <Polygon color="mediumseagreen" positions={polyCoordinates} />
       </div>
     );
   }
