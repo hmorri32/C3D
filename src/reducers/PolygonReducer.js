@@ -14,10 +14,8 @@ const PolyLines = (state = { data: [] }, action) => {
   }
 };
 
-const filtered = (polyLines, latlng) => {
-  return polyLines.filter(
-    coord => JSON.stringify(coord) !== JSON.stringify(latlng)
-  );
+const filtered = (state, latlng) => {
+  return state.filter(coord => JSON.stringify(coord) !== JSON.stringify(latlng));
 };
 
 export default PolyLines;
