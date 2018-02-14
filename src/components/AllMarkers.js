@@ -9,9 +9,14 @@ class AllMarkers extends Component {
   polygonHandler(e) {
     const { lat, lng } = e.latlng;
     const { polyCoordinates, createPolyLine, destroyPolyLine } = this.props;
-    const [poly, latlng] = [JSON.stringify({ polyCoordinates }), JSON.stringify([lat, lng])];
+    const [poly, latlng] = [
+      JSON.stringify({ polyCoordinates }),
+      JSON.stringify([lat, lng])
+    ];
 
-    poly.includes(latlng) ? destroyPolyLine([lat, lng]) : createPolyLine([lat, lng]);
+    poly.includes(latlng)
+      ? destroyPolyLine([lat, lng])
+      : createPolyLine([lat, lng]);
   }
 
   renderMarkers() {
