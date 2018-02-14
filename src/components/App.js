@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import LeafletMap from "../containers/LeafletMap";
+import LeafletMap from "../components/LeafletMap";
 import FormContainer from "../containers/FormContainer";
 
 class App extends Component {
