@@ -1,16 +1,21 @@
 const initialState = {
-  data: [],
+  data: []
 };
 
 const Locations = (state = initialState, action) => {
   switch (action.type) {
-    case 'STORE_LOCATIONS':
+  case "STORE_LOCATIONS":
       // store an array of locations to state
-      return Object.assign({}, state, {
-        data: state.data.concat(action.data),
-      });
-    default:
-      return state;
+    return Object.assign({}, state, {
+      data: state.data.concat(action.data)
+    });
+
+  case "POST_LOCATION":
+    return Object.assign({}, state, {
+      data: state.data.concat(action.data)
+    });
+  default:
+    return state;
   }
 };
 
