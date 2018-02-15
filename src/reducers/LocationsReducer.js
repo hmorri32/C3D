@@ -10,7 +10,7 @@ const Locations = (state = initialState, action) => {
         data: state.data.concat(action.data)
       });
 
-    case "POST_LOCATION":
+    case "STORE_LOCATION":
       return Object.assign({}, state, {
         data: [...state.data, action.data]
       });
