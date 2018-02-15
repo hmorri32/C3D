@@ -37,4 +37,4 @@ const postLocation = location => {
   };
 };
 
-export { fetchAllLocations, postLocation };
+export { fetchAllLocations, postLocation, storeNewLocation };
