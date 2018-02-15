@@ -45,7 +45,12 @@ app.post("/locations", (req, res) => {
   let { locations } = app.locals;
 
   for (let requiredParam of ["name", "lat", "lng"]) {
-    if (!body[requiredParam]) return res.status(422).json({ error: `Missing ${requiredParam}.` });
+    if (!body[requiredParam])
+      return res.status(422).json({ error: `Missing ${requiredParam}.` });
+  }
+
+  if (!checkCoordinates(body)) {
+    return res.status(422).json({ error: "Invalid Latitude or Longitude" });
   }
 
   const postedLocation = { id: `id${locations.length + 1}`, ...body };
@@ -53,9 +58,15 @@ app.post("/locations", (req, res) => {
   res.send(postedLocation);
 });
 
+const checkCoordinates = data => {
+  return (
+    parseFloat(data.lng) &&
+    Math.abs(data.lng) <= 180 &&
+    (parseFloat(data.lat) && Math.abs(data.lat) <= 90)
+  );
+};
+
 const portNumber = process.env.PORT || 3001;
 
 /* eslint-disable no-console */
-app.listen(portNumber, () =>
-  console.log("It's ultra chill at port 3001")
-);
+app.listen(portNumber, () => console.log("It's ultra chill at port 3001"));
