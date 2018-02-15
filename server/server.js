@@ -49,7 +49,7 @@ app.post("/locations", (req, res) => {
   }
 
   const postedLocation = { id: `id${locations.length + 1}`, ...body };
-  app.locals.locations = locations.concat(postedLocation);
+  app.locals.locations = [...locations, postedLocation];
   res.send(postedLocation);
 });
 
