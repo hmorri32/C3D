@@ -9,18 +9,16 @@ class Form extends Component {
   }
 
   submitForm(e, data) {
-    const { postLocation, fetchAllLocations } = this.props;
+    const { postLocation, storeNewLocation } = this.props;
     e.preventDefault();
     postLocation(data)
       .then(data => data.json())
       .then(json => {
-        if (json.error !== undefined) {
-          this.setState({ e: json.error });
-        } else {
-          postLocation(data);
-          fetchAllLocations();
-        }
-      });
+        json.error !== undefined
+          ? this.setState({ e: json.error })
+          : storeNewLocation(json);
+      })
+      .catch(e => this.setState({ e: e }));
   }
 
   resetInputs(form) {
