@@ -4,38 +4,23 @@ class Form extends Component {
   constructor() {
     super();
     this.state = {
-      formErrors: ""
+      e: ""
     };
   }
 
   submitForm(e, data) {
-    const { postLocation } = this.props;
+    const { postLocation, fetchAllLocations } = this.props;
     e.preventDefault();
-    if (data.name && this.checkCoordinates(data)) {
-      postLocation(data);
-      this.resetInputs(this);
-      this.clearErrors();
-    } else {
-      this.setError();
-    }
-  }
-
-  setError() {
-    this.setState({
-      formErrors: "Please enter valid latitude and longitude coordinates."
-    });
-  }
-
-  clearErrors() {
-    this.setState({
-      formErrors: ""
-    });
-  }
-
-  checkCoordinates(data) {
-    return (
-      parseFloat(data.lng) && Math.abs(data.lng) <= 180 && (parseFloat(data.lat) && Math.abs(data.lat) <= 90)
-    );
+    postLocation(data)
+      .then(data => data.json())
+      .then(json => {
+        if (json.error !== undefined) {
+          this.setState({ e: json.error });
+        } else {
+          postLocation(data);
+          fetchAllLocations();
+        }
+      });
   }
 
   resetInputs(form) {
@@ -45,7 +30,7 @@ class Form extends Component {
   }
 
   render() {
-    const { formErrors } = this.state;
+    const { e } = this.state;
     return (
       <form className="form">
         <label>
@@ -86,7 +71,7 @@ class Form extends Component {
           }>
           Save
         </button>
-        {formErrors ? <p>{formErrors}</p> : ""}
+        {e ? <p>{e}</p> : ""}
       </form>
     );
   }
