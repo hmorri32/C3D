@@ -28,15 +28,12 @@ const fetchAllLocations = () => {
 };
 
 const postLocation = location => {
-  return async dispatch => {
-    const fetcher = await fetch("locations", {
+  return dispatch => {
+    return fetch("locations", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(location)
     });
-    const json = await fetcher.json();
-    dispatch(storeNewLocation(json));
-    dispatch(fetchAllLocations());
   };
 };
 
