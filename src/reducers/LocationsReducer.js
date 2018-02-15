@@ -12,7 +12,7 @@ const Locations = (state = initialState, action) => {
 
     case "POST_LOCATION":
       return Object.assign({}, state, {
-        data: state.data.concat(action.data)
+        data: [...state.data, action.data]
       });
     default:
       return state;
